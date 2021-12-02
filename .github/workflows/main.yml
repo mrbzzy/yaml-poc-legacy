@@ -4,7 +4,7 @@ name: yaml-poc
 
 on:
   push:
-    branches: [ main ]
+    branches: [  ]
   
 
   
@@ -25,3 +25,18 @@ jobs:
         
       - name: Status of POC
         run: echo hello world
+        
+      - name: login to dockerhub
+        uses: mr-smithers-excellent/docker-build-push@v5.6
+        with:
+          iamge: mrbzzy18/yaml-poc
+          tag: latest
+          registry: docker.io
+          dockerfile: DockerFile
+          username: ${{ secrets.DOCKER_USERNAME }} 
+          password: ${{ secrets.DOCKER_PASSWORD }}
+        
+      
+      - name: build a docker image
+      
+      - name: push to docker hub
