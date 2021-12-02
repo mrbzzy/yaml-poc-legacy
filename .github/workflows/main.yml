@@ -28,7 +28,7 @@ jobs:
         uses: mr-smithers-excellent/docker-build-push@v5.6
         with:
           image: mrbzzy18/yaml-poc
-          tag: latest
+          tags: latest
           registry: docker.io
           dockerfile: DockerFile
           username: ${{ secrets.DOCKER_USERNAME }} 
