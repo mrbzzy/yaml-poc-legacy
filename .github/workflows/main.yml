@@ -1,0 +1,25 @@
+# This is a basic workflow to help you get started with Actions
+
+name: yaml-poc
+
+on:
+  push:
+    branches: [ master ]
+  
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+          cache: maven
+            
+      - name: Build with Maven
+        run: mvn clean install        
