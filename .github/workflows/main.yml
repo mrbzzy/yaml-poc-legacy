@@ -21,4 +21,7 @@ jobs:
           cache: maven
             
       - name: Build with Maven
-        run: mvn clean install        
+        run: mvn clean install   
+        
+      - name: Status of POC
+        run: echo hello world
