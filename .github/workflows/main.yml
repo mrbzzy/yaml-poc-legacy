@@ -27,7 +27,7 @@ jobs:
       - name: login to dockerhub
         uses: mr-smithers-excellent/docker-build-push@v5.6
         with:
-          iamge: mrbzzy18/yaml-poc
+          image: mrbzzy18/yaml-poc
           tag: latest
           registry: docker.io
           dockerfile: DockerFile
