@@ -4,11 +4,10 @@ name: yaml-poc
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   
 
-  workflow_dispatch:
-
+  
 jobs:
   build:
     runs-on: ubuntu-latest
