@@ -35,6 +35,4 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
         
       
-      - name: build a docker image
-      
-      - name: push to docker hub
+     
