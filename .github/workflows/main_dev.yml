@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2 #The step checks out the code repo for the runner to perform action as per the script
-      - name: Set up JDK
+      - name: Set up JDK 11
         uses: actions/setup-java@v1 #This sets up the JDK to be used, as of now its using jdk v1.8
         with:
           java-version: 11
@@ -50,21 +50,17 @@ jobs:
       
       
       # Running the Test cases with help of maven    
-      - name: Testing
+      # As of now only a placeholder test class is configured which simply prints a demo string
+      - name: Unit Testing
         run: mvn -B test --file pom.xml
  
  #Sonar Cube integration sample code.
- # Commented out as its not yet configured for the project. THIS IS ONLY FOR REFERENCE PURPOSE
  
-
-  #sonarQubeTrigger:
-  
-    #name: SonarQube Trigger
-    #needs: build
-    #runs-on: ubuntu-latest
-    #steps:
       - name: Sonar Cube Placeholder step
         run: echo sonar cube demo
+  
+  #SonarCloud package has been configured as of now for the Dev branch
+  
       - name: Cache SonarCloud packages
         uses: actions/cache@v1
         with:
@@ -77,22 +73,18 @@ jobs:
             path: ~/.m2
             key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
             restore-keys: ${{ runner.os }}-m2
-      - name: Build and analyze
+  # This step takes in the Sonar and Github token and perform the analysis.
+  # The results are available on Sonal Cloud UI
+      - name: Build and analyze via SonarCloud
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify --file pom.xml org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=mrbzzy_yaml-poc  
-     #     
-   #     
- #   - uses: actions/checkout@master
- #   - name: SonarQube Scan
- #     uses: kitabisa/sonarqube-action@v1.1.0
- #     with:
- #       host: ${{ secrets.SONARQUBE_HOST }}
- #       login: ${{ secrets.SONARQUBE_TOKEN }}
+  
+  
 
    # This steps defines the Deployment steps follow to deploy the application on a azure resource.
-  
+  # These are predefined steps that can be generated using Azure while setting up the connection to the Azure App
   deploy:
     name: Deployment
     runs-on: ubuntu-latest
