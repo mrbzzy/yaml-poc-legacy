@@ -54,8 +54,7 @@ jobs:
     steps:
             
       - name: test with Maven
-        working-directory: ./
-        run: mvn clean test
+        run: mvn -f ./pom.xml clean test
         
 
 
