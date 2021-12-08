@@ -48,13 +48,13 @@ jobs:
 
 
   #Steps for the tests to be performed on the code base before the final deployment
-  test:
-    runs-on: ubuntu-latest
+  #test:
+  #  runs-on: ubuntu-latest
 
-    steps:
+   # steps:
             
-      - name: test with Maven
-        #run: mvn -B test --file pom.xml
+    #  - name: test with Maven
+     #   run: mvn -B test --file pom.xml
         
 
 
