@@ -43,8 +43,11 @@ jobs:
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
-          name: java-app
+          name: yaml-poc
           path: '${{ github.workspace }}/target/*.jar'
+          
+      - name: Testing
+        run: mvn -B test --file pom.xml
 
 
   #Steps for the tests to be performed on the code base before the final deployment
@@ -72,7 +75,7 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v2
         with:
-          name: java-app
+          name: yaml-poc
       # This steps Deploys the artifcat to Azure web app.  
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
