@@ -96,7 +96,7 @@ jobs:
   deploy:
     name: Deployment
     runs-on: ubuntu-latest
-    needs: [sonarQubeTrigger]
+    needs: [build]
     # This sets up the environment defined by the Azure along with the URL on which the application will be accissible.
     environment:
       name: 'Production'
