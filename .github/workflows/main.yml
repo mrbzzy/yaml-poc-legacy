@@ -6,7 +6,7 @@ name: yaml-poc
 # to the main branch.
 on:
   push:
-    branches: [ main ]
+    branches: [ dev ]
 
 
 # Jobs are basically a set of steps that will execute.  
