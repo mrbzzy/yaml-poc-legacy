@@ -56,15 +56,7 @@ jobs:
       - name: test with Maven
         run: mvn -f ./pom.xml clean test
         
-  upload_artifacts:
-    runs-on: ubuntu-latest
-    steps:
-        - name: Upload artifact for deployment job
-          uses: actions/upload-artifact@v2
-          with:
-              name: java-app
-              path: '${{ github.workspace }}/target/*.jar'
-
+ 
   # This steps defines the Deployment steps follow to deploy the application on a azure resource.
   deploy:
     runs-on: ubuntu-latest
