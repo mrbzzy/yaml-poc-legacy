@@ -54,6 +54,7 @@ jobs:
     steps:
             
       - name: test with Maven
+        working-directory: ./
         run: mvn clean test
         
 
