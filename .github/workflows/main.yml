@@ -1,0 +1,100 @@
+# This is a basic workflow to help you get started with Actions
+# Name of the POC. This can be anything that you wish to keep
+name: yaml-poc
+
+# This is the trigger for the work flow. As of now it set to be triggered whenever a change is pushed on 
+# to the main branch.
+on:
+  push:
+    branches: [ main]
+
+
+# Jobs are basically a set of steps that will execute.  
+jobs:
+
+  #Defines a job named "build". The child steps will define how the job will function
+  build:
+    name: BuildSteps
+    runs-on: ubuntu-latest # This declares the env on which the job will run.
+
+    steps:
+      - uses: actions/checkout@v2 #The step checks out the code repo for the runner to perform action as per the script
+      - name: Set up JDK
+        uses: actions/setup-java@v1 #This sets up the JDK to be used, as of now its using jdk v1.8
+        with:
+          java-version: 1.8
+         
+            
+      - name: Clean the existing compiled files and compile the project again 
+        run: mvn clean install   
+        
+      # Below action uses a prediefined plugin in order to login to dockerhub and push the image to the hub
+      # This image then can be used in order to deploy the application  
+      - name: login to dockerhub 
+        uses: mr-smithers-excellent/docker-build-push@v5.6 # This gitub action used to perform the operation
+        with:
+          image: mrbzzy18/yaml-poc # Name of the image
+          tags: latest             # Tag for the image , here in we are taking latest 
+          registry: docker.io      # This is the registry for the image 
+          dockerfile: DockerFile   # This is basically the location of the file to be used to build the image. 
+          username: ${{ secrets.DOCKER_USERNAME }}  #Github secrets to mask the username
+          password: ${{ secrets.DOCKER_PASSWORD }}  #Github secrets to mask the password
+        
+      # This action is used to put the jar file created at a specific path.
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v2
+        with:
+          name: yaml-poc
+          path: '${{ github.workspace }}/target/*.jar'
+      
+      
+      
+      # Running the Test cases with help of maven    
+      - name: Testing
+        run: mvn -B test --file pom.xml
+ 
+ #Sonar Cube integration sample code.
+ # Commented out as its not yet configured for the project. THIS IS ONLY FOR REFERENCE PURPOSE
+ 
+
+  sonarQubeTrigger:
+  
+    name: SonarQube Trigger
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sonar Cube Placeholder step
+        run: echo sonar cube demo
+ #   - uses: actions/checkout@master
+ #   - name: SonarQube Scan
+ #     uses: kitabisa/sonarqube-action@v1.1.0
+ #     with:
+ #       host: ${{ secrets.SONARQUBE_HOST }}
+ #       login: ${{ secrets.SONARQUBE_TOKEN }}
+
+   # This steps defines the Deployment steps follow to deploy the application on a azure resource.
+  
+  deploy:
+    name: Deployment
+    runs-on: ubuntu-latest
+    needs: [sonarQubeTrigger]
+    # This sets up the environment defined by the Azure along with the URL on which the application will be accissible.
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    
+    # This will download the artifact created during the build job in order to deploy it to Azure web app
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: yaml-poc
+      # This steps Deploys the artifcat to Azure web app.  
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'yamlpoc'
+          slot-name: 'Production'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8418B575E2F14A88953E543401AC72A6 }}
+          package: '*.jar'    
