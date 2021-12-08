@@ -46,10 +46,12 @@ jobs:
           name: yaml-poc
           path: '${{ github.workspace }}/target/*.jar'
       
+      
+      
       # Running the Test cases with help of maven    
       - name: Testing
-  #      run: mvn -B test --file pom.xml
-        run: mvn clean test
+        run: mvn -B test --file pom.xml
+      
 
 
    # This steps defines the Deployment steps follow to deploy the application on a azure resource.
