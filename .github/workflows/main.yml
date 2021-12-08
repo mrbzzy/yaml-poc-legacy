@@ -54,7 +54,7 @@ jobs:
     steps:
             
       - name: test with Maven
-        run: mvn -B test --file pom.xml
+        run: mvn clean test
         
 
 
