@@ -3,7 +3,7 @@
 name: yaml-poc
 
 # This is the trigger for the work flow. As of now it set to be triggered whenever a change is pushed on 
-# to the main branch.
+# to the dev branch.
 on:
   push:
     branches: [ dev ]
