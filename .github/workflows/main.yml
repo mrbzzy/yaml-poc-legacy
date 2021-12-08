@@ -45,23 +45,14 @@ jobs:
         with:
           name: yaml-poc
           path: '${{ github.workspace }}/target/*.jar'
-          
+      
+      # Running the Test cases with help of maven    
       - name: Testing
-        run: mvn -B test --file pom.xml
+  #      run: mvn -B test --file pom.xml
+        run: mvn clean test
 
 
-  #Steps for the tests to be performed on the code base before the final deployment
-  #test:
-  #  runs-on: ubuntu-latest
-
-   # steps:
-            
-    #  - name: test with Maven
-     #   run: mvn -B test --file pom.xml
-        
-
-
-  # This steps defines the Deployment steps follow to deploy the application on a azure resource.
+   # This steps defines the Deployment steps follow to deploy the application on a azure resource.
   deploy:
     runs-on: ubuntu-latest
     needs: build
