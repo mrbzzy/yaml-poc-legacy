@@ -22,7 +22,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v1 #This sets up the JDK to be used, as of now its using jdk v1.8
         with:
-          java-version: 1.8
+          java-version: 11
          
             
       - name: Clean the existing compiled files and compile the project again 
