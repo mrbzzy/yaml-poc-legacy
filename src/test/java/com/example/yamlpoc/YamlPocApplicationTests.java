@@ -8,6 +8,7 @@ class YamlPocApplicationTests {
 
 	@Test
 	void contextLoads() {
+		System.out.println("Demo Test Class");
 	}
 
 }
