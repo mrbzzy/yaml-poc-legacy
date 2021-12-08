@@ -43,7 +43,7 @@ jobs:
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
-          name: yaml-poc
+          name: java-app
           path: '${{ github.workspace }}/target/*.jar'
 
 
@@ -54,15 +54,14 @@ jobs:
     steps:
             
       - name: test with Maven
-        run: mvn -f ./pom.xml clean test
+        #run: mvn -B test --file pom.xml
         
- 
+
+
   # This steps defines the Deployment steps follow to deploy the application on a azure resource.
   deploy:
     runs-on: ubuntu-latest
-    # This is a conditional expression that can be used to inject dependency in the phases. 
-    # Deploy phase needs build and test phase to get complete in order to run the steps.
-    needs: [build,test] 
+    needs: build
     # This sets up the environment defined by the Azure along with the URL on which the application will be accissible.
     environment:
       name: 'Production'
@@ -73,7 +72,7 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v2
         with:
-          name: yaml-poc
+          name: java-app
       # This steps Deploys the artifcat to Azure web app.  
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
