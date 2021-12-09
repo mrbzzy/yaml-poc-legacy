@@ -15,7 +15,8 @@ jobs:
   #Defines a job named "build". The child steps will define how the job will function
   build:
     name: BuildSteps
-    runs-on: ubuntu-latest # This declares the env on which the job will run.
+    runs-on: self-hosted
+   # runs-on: ubuntu-latest # This declares the env on which the job will run.
 
     steps:
       - uses: actions/checkout@v2 #The step checks out the code repo for the runner to perform action as per the script
@@ -86,7 +87,8 @@ jobs:
   # These are predefined steps that can be generated using Azure while setting up the connection to the Azure App
   deploy:
     name: Deployment
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
+    #runs-on: ubuntu-latest
     needs: [build]
     # This sets up the environment defined by the Azure along with the URL on which the application will be accissible.
     environment:
