@@ -45,14 +45,25 @@ jobs:
       # This action is used to put the jar file created at a specific path.
       # Running the Test cases with help of maven    
       # As of now only a placeholder test class is configured which simply prints a demo string
-      - name: Unit Testing
-        run: mvn -B test --file pom.xml
+      #- name: Unit Testing
+      #  run: mvn -B test --file pom.xml
  
 
+  test:
+      name: test
+      runs-on: self-hosted
+      needs: [build]
+      steps:
+        - name: Unit Testing
+          run: mvn -B test --file pom.xml
+
+        
+  
+  
   upload:
     #runs-on: ubuntu-latest
     runs-on: self-hosted
-    needs: [build]
+    needs: [test]
     steps:
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
