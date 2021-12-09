@@ -30,55 +30,57 @@ jobs:
         
       # Below action uses a prediefined plugin in order to login to dockerhub and push the image to the hub
       # This image then can be used in order to deploy the application  
-      - name: login to dockerhub 
-        uses: mr-smithers-excellent/docker-build-push@v5.6 # This gitub action used to perform the operation
-        with:
-          image: mrbzzy18/yaml-poc # Name of the image
-          tags: latest             # Tag for the image , here in we are taking latest 
-          registry: docker.io      # This is the registry for the image 
-          dockerfile: DockerFile   # This is basically the location of the file to be used to build the image. 
-          username: ${{ secrets.DOCKER_USERNAME }}  #Github secrets to mask the username
-          password: ${{ secrets.DOCKER_PASSWORD }}  #Github secrets to mask the password
+      # - name: login to dockerhub 
+      #   uses: mr-smithers-excellent/docker-build-push@v5.6 # This gitub action used to perform the operation
+      #   with:
+      #     image: mrbzzy18/yaml-poc # Name of the image
+      #     tags: latest             # Tag for the image , here in we are taking latest 
+      #     registry: docker.io      # This is the registry for the image 
+      #     dockerfile: DockerFile   # This is basically the location of the file to be used to build the image. 
+      #     username: ${{ secrets.DOCKER_USERNAME }}  #Github secrets to mask the username
+      #     password: ${{ secrets.DOCKER_PASSWORD }}  #Github secrets to mask the password
         
       # This action is used to put the jar file created at a specific path.
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v2
-        with:
-          name: yaml-poc
-          path: '${{ github.workspace }}/target/*.jar'
-      
-      
-      
       # Running the Test cases with help of maven    
       # As of now only a placeholder test class is configured which simply prints a demo string
       - name: Unit Testing
         run: mvn -B test --file pom.xml
  
+
+  upload:
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v2
+        with:
+          name: yaml-poc
+          path: '${{ github.workspace }}/target/*.jar'
  #Sonar Cube integration sample code.
  
-      - name: Sonar Cube Placeholder step
-        run: echo sonar cube demo
+      # - name: Sonar Cube Placeholder step
+      #   run: echo sonar cube demo
   
   #SonarCloud package has been configured as of now for the Dev branch
   
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v1
-        with:
-            path: ~/.sonar/cache
-            key: ${{ runner.os }}-sonar
-            restore-keys: ${{ runner.os }}-sonar
-      - name: Cache Maven packages
-        uses: actions/cache@v1
-        with:
-            path: ~/.m2
-            key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-            restore-keys: ${{ runner.os }}-m2
+      # - name: Cache SonarCloud packages
+      #   uses: actions/cache@v1
+      #   with:
+      #       path: ~/.sonar/cache
+      #       key: ${{ runner.os }}-sonar
+      #       restore-keys: ${{ runner.os }}-sonar
+      # - name: Cache Maven packages
+      #   uses: actions/cache@v1
+      #   with:
+      #       path: ~/.m2
+      #       key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+      #       restore-keys: ${{ runner.os }}-m2
   # This step takes in the Sonar and Github token and perform the analysis.
   # The results are available on Sonal Cloud UI
       - name: Build and analyze via SonarCloud
-        env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        # env:
+        #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+        #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
      #   run: mvn -B verify --file pom.xml org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=mrbzzy_yaml-poc  
         run: echo Placeholder
   
@@ -88,7 +90,7 @@ jobs:
   deploy:
     name: Deployment
     runs-on: ubuntu-latest
-    needs: [build]
+    needs: [upload]
     # This sets up the environment defined by the Azure along with the URL on which the application will be accissible.
     environment:
       name: 'Production'
