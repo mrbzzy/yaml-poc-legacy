@@ -80,7 +80,7 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
      #   run: mvn -B verify --file pom.xml org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=mrbzzy_yaml-poc  
-  
+        run: echo Placeholder
   
 
    # This steps defines the Deployment steps follow to deploy the application on a azure resource.
