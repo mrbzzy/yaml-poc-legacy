@@ -27,7 +27,7 @@ jobs:
           username: ${{ secrets.AZURE_USERNAME }}      
           key: ${{ secrets.SSH_SECRET }}
           port: 22
-          source: "~/target/yaml-poc.jar"      
+          source: "/home/***/actions-runner/yaml-poc/yaml-poc/yaml-poc/target/yaml-poc.jar"      
           target: "~/source"
       - name: Start Service
         uses: appleboy/ssh-action@master
