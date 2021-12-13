@@ -58,7 +58,7 @@
 			    	<version>2.22.1</version>
 			</plugin>
 		</plugins>
-		<finalName>yaml-poc</finalName>
+		<finalName>yaml-poc-latest</finalName>
 	</build>
 
 </project>
