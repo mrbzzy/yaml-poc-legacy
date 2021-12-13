@@ -4,12 +4,10 @@ name: Worfklow for Spring boot application to be deployed on Azure VM
 
 on:
   push:
-    branches: []
-
-  workflow_dispatch: 
+    branches: [ dev ]
   
 jobs:
-  my-app:
+  build:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
@@ -42,7 +40,3 @@ jobs:
                 sudo ln -s -f ~/source/my-app.jar /etc/init.d/my-app
                 sudo /etc/init.d/my-app start
                 rm ~/source/my-app-old.jar
-  
-
-       
-      
