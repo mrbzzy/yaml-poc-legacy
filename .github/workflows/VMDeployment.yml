@@ -37,9 +37,9 @@ jobs:
           key: ${{ secrets.SSH_SECRET }}
           port: 22
           script: |
-                sudo /etc/init.d/yaml-poc stop
+                /etc/init.d/yaml-poc stop
                 mv ~/source/target/yaml-poc.jar ~/source/target/yaml-poc-old.jar
                 mv ~/source/target/yaml-poc-latest.jar ~/source/target/yaml-poc.jar
-                sudo rm -rf /etc/init.d/yaml-poc
-                sudo ln -s -f ~/source/target/yaml-poc.jar /etc/init.d/yaml-poc
-                sudo /etc/init.d/yaml-poc start
+                rm -rf /etc/init.d/yaml-poc
+                ln -s -f ~/source/target/yaml-poc.jar /etc/init.d/yaml-poc
+                /etc/init.d/yaml-poc start
