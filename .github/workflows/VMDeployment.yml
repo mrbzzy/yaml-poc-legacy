@@ -27,8 +27,8 @@ jobs:
           username: ${{ secrets.AZURE_USERNAME }}      
           key: ${{ secrets.SSH_SECRET }}
           port: 22
-          src: "my-app.jar"      
-          remote: "~/source"
+          source: "my-app.jar"      
+          target: "~/source"
       - name: Start Service
         uses: appleboy/ssh-action@master
         with:
