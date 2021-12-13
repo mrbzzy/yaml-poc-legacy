@@ -27,7 +27,7 @@ jobs:
           username: ${{ secrets.AZURE_USERNAME }}      
           key: ${{ secrets.SSH_SECRET }}
           port: 22
-          source: " "      
+          source: "*"      
           target: "~/source"
       - name: Start Service
         uses: appleboy/ssh-action@master
