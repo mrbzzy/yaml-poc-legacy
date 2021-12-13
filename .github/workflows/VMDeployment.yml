@@ -27,7 +27,7 @@ jobs:
           username: ${{ secrets.AZURE_USERNAME }}      
           key: ${{ secrets.SSH_SECRET }}
           port: 22
-          source: "my-app.jar"      
+          source: "~/target/yaml-poc.jar"      
           target: "~/source"
       - name: Start Service
         uses: appleboy/ssh-action@master
@@ -37,10 +37,10 @@ jobs:
           key: ${{ secrets.SSH_SECRET }}
           port: 22
           script: |
-                sudo /etc/init.d/my-app stop
-                mv ~/source/my-app.jar ~/source/my-app-old.jar
-                mv ~/source/my-app-latest.jar ~/source/my-app.jar
-                sudo rm -rf /etc/init.d/my-app
-                sudo ln -s -f ~/source/my-app.jar /etc/init.d/my-app
-                sudo /etc/init.d/my-app start
-                rm ~/source/my-app-old.jar
+                sudo /etc/init.d/yaml-poc stop
+                mv ~/source/yaml-poc.jar ~/source/yaml-poc-old.jar
+                mv ~/source/yaml-poc-latest.jar ~/source/yaml-poc.jar
+                sudo rm -rf /etc/init.d/yaml-poc
+                sudo ln -s -f ~/source/yaml-poc.jar /etc/init.d/yaml-poc
+                sudo /etc/init.d/yaml-poc start
+                rm ~/source/yaml-poc-old.jar
