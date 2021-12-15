@@ -6,7 +6,9 @@ name: yaml-poc
 # to the dev branch.
 on:
   push:
+    paths: './github/workflows/main_dev.yml'
     branches: [ dev  ]
+  
 
 
 # Jobs are basically a set of steps that will execute.  
@@ -125,4 +127,4 @@ jobs:
           app-name: 'yamlpoc'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8418B575E2F14A88953E543401AC72A6 }}
-          package: 'yaml-poc.jar'    
+          package: 'yaml-poc-latest.jar'    
