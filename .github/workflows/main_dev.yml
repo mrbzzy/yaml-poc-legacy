@@ -6,7 +6,7 @@ name: yaml-poc
 # to the dev branch.
 on:
   push:
-    paths: './github/workflows/main_dev.yml'
+    paths: '!./github/workflows/main_dev.yml'
     branches: [ dev  ]
   
 
