@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Worfklow for Spring boot application to be deployed on Azure VM
+name: Deployment on Multiple Env
 
 on:
   push:
@@ -20,21 +20,57 @@ jobs:
           java-version: 11
       - name: package application
         run: mvn package
+
+  
+  Dev:
+    runs-on: self-hosted
+    environment: Development
+    needs: build 
+    steps:
       - name: Upload application
         uses: appleboy/scp-action@master
         with:
-          host: ${{ secrets.IP_ADDRESS }}        
-          username: ${{ secrets.AZURE_USERNAME }}      
-          key: ${{ secrets.SSH_SECRET }}
+          host: ${{ secrets.DEV_IP_ADDRESS }}        
+          username: ${{ secrets.DEV_AZURE_USERNAME }}      
+          key: ${{ secrets.DEV_SSH_SECRET }}
           port: 22
           source: "*"      
           target: "~/source"
       - name: Start Service
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.IP_ADDRESS }}        
-          username: ${{ secrets.AZURE_USERNAME }}      
-          key: ${{ secrets.SSH_SECRET }}
+          host: ${{ secrets.DEV_IP_ADDRESS }}        
+          username: ${{ secrets.DEV_AZURE_USERNAME }}      
+          key: ${{ secrets.DEV_SSH_SECRET }}
+          port: 22
+          script: |
+                /etc/init.d/yaml-poc stop
+                mv ~/source/target/yaml-poc.jar ~/source/target/yaml-poc-old.jar
+                mv ~/source/target/yaml-poc-latest.jar ~/source/target/yaml-poc.jar
+                rm -rf /etc/init.d/yaml-poc
+                ln -s -f ~/source/target/yaml-poc.jar /etc/init.d/yaml-poc
+                /etc/init.d/yaml-poc start
+  
+  Prod:
+    runs-on: self-hosted
+    environment: Production
+    needs: build
+    steps:
+      - name: Upload application to Prod
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.PROD_IP_ADDRESS }}        
+          username: ${{ secrets.PROD_AZURE_USERNAME }}      
+          key: ${{ secrets.PROD_SSH_SECRET }}
+          port: 22
+          source: "*"      
+          target: "~/source"
+      - name: Start Service on Prod
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.PROD_IP_ADDRESS }}        
+          username: ${{ secrets.PROD_AZURE_USERNAME }}      
+          key: ${{ secrets.PROD_SSH_SECRET }}
           port: 22
           script: |
                 /etc/init.d/yaml-poc stop
