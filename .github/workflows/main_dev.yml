@@ -1,12 +1,12 @@
 # This is a basic workflow to help you get started with Actions
 # Name of the POC. This can be anything that you wish to keep
-name: yaml-poc
+name: yaml-poc self hosted runner
 
 # This is the trigger for the work flow. As of now it set to be triggered whenever a change is pushed on 
 # to the dev branch.
 on:
   push:
-    paths: '!./github/workflows/main_dev.yml'
+    
     branches: [ dev  ]
   
 
