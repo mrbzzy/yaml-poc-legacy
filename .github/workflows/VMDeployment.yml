@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Checking out 
         uses: actions/checkout@v2
@@ -28,7 +28,7 @@ jobs:
 
   
   Dev:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     environment: Development
     needs: build 
     steps:
@@ -57,7 +57,7 @@ jobs:
                 /etc/init.d/yaml-poc start
   
   Prod:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     environment: Production
     needs: build
     steps:
